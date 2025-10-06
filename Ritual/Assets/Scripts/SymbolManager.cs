@@ -24,7 +24,7 @@ public class SymbolManager : MonoBehaviour
 
     private void Awake()
     {
-        // Deactivate all symbols first
+        
         GameObject[] symbols = { triangleSymbol, starSymbol, squareSymbol, eyeballSymbol, doubleEyeballSymbol };
         foreach (GameObject symbol in symbols)
         {
@@ -32,7 +32,7 @@ public class SymbolManager : MonoBehaviour
                 symbol.SetActive(false);
         }
 
-        // Randomly select active symbol
+        
         int index = Random.Range(0, symbols.Length);
         activeSymbolObject = symbols[index];
         activeSymbolObject.SetActive(true);

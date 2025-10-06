@@ -25,7 +25,7 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 velocity;
     private float xRotation = 0f;
 
-    // Event for external systems to know when player moves
+    
     public System.Action OnPlayerMoved;
 
     void Awake()
@@ -80,7 +80,7 @@ public class PlayerMovement : MonoBehaviour
         Vector3 finalMove = move + velocity;
         controller.Move(finalMove * Time.deltaTime);
 
-        // Notify any subscribers that player moved (used to exit candle mode)
+        
         if (moveInput.magnitude > 0.1f && OnPlayerMoved != null)
             OnPlayerMoved.Invoke();
     }
@@ -91,7 +91,7 @@ public class PlayerMovement : MonoBehaviour
         float mouseY = lookInput.y * mouseSensitivity * Time.deltaTime;
 
         xRotation -= mouseY;
-        xRotation = Mathf.Clamp(xRotation, -90f, 90f);
+        xRotation = Mathf.Clamp(xRotation, -30f, 30f);
 
         cameraTransform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
         transform.Rotate(Vector3.up * mouseX);

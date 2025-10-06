@@ -9,21 +9,29 @@ public class CandleRitual : MonoBehaviour
     public GameObject candle2;
     public GameObject candle3;
     public GameObject candle4;
-    public GameObject candle5; // optional
-    public GameObject candle6; // optional
+    public GameObject candle5; 
+    public GameObject candle6; 
+
+    [Header("Candle Flames")]
+    public ParticleSystem flame1;
+    public ParticleSystem flame2;
+    public ParticleSystem flame3;
+    public ParticleSystem flame4;
+    public ParticleSystem flame5; 
+    public ParticleSystem flame6; 
 
     [Header("Ritual Settings")]
-    public SymbolManager symbolManager; // reference to SymbolManager
-    [HideInInspector] public int numberOfActiveCandles; // randomized at start
+    public SymbolManager symbolManager; 
+    [HideInInspector] public int numberOfActiveCandles; 
 
     [Header("Player Interaction")]
-    public PlayerMovement playerMovement; // reference to player
-    public Transform candleFocusPosition; // position in front of candles
+    public PlayerMovement playerMovement; 
+    public Transform candleFocusPosition; 
     private bool isInCandleMode = false;
 
     [Header("Candle Mode Transition")]
-    public float moveSpeedToCandle = 2f;       // speed to glide to position
-    public float rotationSpeedToCandle = 2f;   // speed to rotate to target angle
+    public float moveSpeedToCandle = 2f;       
+    public float rotationSpeedToCandle = 2f;   
 
     private bool isTransitioning = false;
     private Vector3 startPos;
@@ -33,6 +41,7 @@ public class CandleRitual : MonoBehaviour
     private float transitionProgress = 0f;
 
     private List<GameObject> activeCandles = new List<GameObject>();
+    private List<ParticleSystem> candleFlames = new List<ParticleSystem>();
     private List<int> targetCandleIndexes = new List<int>();
     private List<int> playerLitCandles = new List<int>();
 
@@ -50,17 +59,18 @@ public class CandleRitual : MonoBehaviour
 
     void Start()
     {
-        // Randomly choose 4, 5, or 6 candles
+        
         numberOfActiveCandles = Random.Range(4, 7);
         Debug.Log("Number of candles this round: " + numberOfActiveCandles);
 
         SetupCandles();
+        SetupFlames();
         DetermineTargetCandles();
     }
 
     void Update()
     {
-        // Handle smooth transition to candle focus
+        
         if (isTransitioning)
         {
             transitionProgress += Time.deltaTime * moveSpeedToCandle;
@@ -72,7 +82,7 @@ public class CandleRitual : MonoBehaviour
                 isTransitioning = false;
         }
 
-        // Exit CandleMode when player presses WASD
+        
         if (isInCandleMode && !isTransitioning)
         {
             if (Keyboard.current.wKey.isPressed || Keyboard.current.aKey.isPressed ||
@@ -105,10 +115,26 @@ public class CandleRitual : MonoBehaviour
         }
         else candle6.SetActive(false);
 
-        // Debug active candles
         for (int i = 0; i < activeCandles.Count; i++)
         {
             Debug.Log($"Active candle {i} = {activeCandles[i].name}");
+        }
+    }
+
+    void SetupFlames()
+    {
+        candleFlames = new List<ParticleSystem> { flame1, flame2, flame3, flame4 };
+
+        if (numberOfActiveCandles >= 5)
+            candleFlames.Add(flame5);
+        if (numberOfActiveCandles == 6)
+            candleFlames.Add(flame6);
+
+        // Ensure all flames are off at start
+        foreach (ParticleSystem flame in candleFlames)
+        {
+            if (flame != null)
+                flame.Stop();
         }
     }
 
@@ -166,9 +192,17 @@ public class CandleRitual : MonoBehaviour
         }
 
         if (playerLitCandles.Contains(candleID))
+        {
             playerLitCandles.Remove(candleID);
+            if (candleFlames[candleID] != null)
+                candleFlames[candleID].Stop();
+        }
         else
+        {
             playerLitCandles.Add(candleID);
+            if (candleFlames[candleID] != null)
+                candleFlames[candleID].Play();
+        }
 
         CheckSuccess();
     }
@@ -232,9 +266,10 @@ public class CandleRitual : MonoBehaviour
 
         playerLitCandles.Clear();
 
-        foreach (GameObject candle in activeCandles)
+        foreach (ParticleSystem flame in candleFlames)
         {
-            // Reset candle visuals here
+            if (flame != null)
+                flame.Stop();
         }
     }
 

@@ -274,8 +274,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2dfdd80edacd6d4fb85af9135c3386e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MvmntScript
-  moveSpeed: 6
-  maxSpeed: 8
+  moveSpeed: 10
+  maxSpeed: 10
   airMultiplier: 0.5
   dragGround: 5
   dragAir: 0.5
@@ -947,7 +947,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SaltCircleScript
   player: {fileID: 181776654}
-  pushForce: 10
+  pushForce: 2
   circleScale: 2
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

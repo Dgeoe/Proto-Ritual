@@ -9,12 +9,13 @@ public class LiquidHolder : MonoBehaviour
     public float yellowTarget;
     public float blueTarget;
     public SymbolManager.SymbolType activeSymbol;
-
-    private SymbolManager symbolManager;
-
-    private void Awake()
+    public bool redActive;
+    public bool greenActive;
+    public bool yellowActive;
+    public bool blueActive;
+    public SymbolManager symbolManager;
+    private void Start()
     {
-        symbolManager = GetComponent<SymbolManager>();
         SetValuesBasedOnSymbol();
     }
 

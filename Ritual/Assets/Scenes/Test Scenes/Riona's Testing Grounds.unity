@@ -7105,7 +7105,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   cameraTransform: {fileID: 1654576294}
   moveSpeed: 5
-  mouseSensitivity: 26.11
+  mouseSensitivity: 1
   gravity: -9.81
   actionsAsset: {fileID: -944628639613478452, guid: 8ce03e701cfc3bc45acf8bc6003bc89f, type: 3}
 --- !u!4 &182516309

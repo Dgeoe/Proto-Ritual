@@ -7,8 +7,6 @@ public class RingClick : MonoBehaviour
     public RingRitual ringRitualManager;
     public Camera mainCamera;
 
-    //Oh look another script for the ring ritual
-
     void Update()
     {
         if (Mouse.current.leftButton.wasPressedThisFrame)

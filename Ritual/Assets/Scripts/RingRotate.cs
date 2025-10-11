@@ -10,13 +10,11 @@ public class RingRotate : MonoBehaviour
     [SerializeField] private float rotationDirection = -1f;
     [SerializeField] private float snapThreshold = 5f;
 
-    //And another ring ritual script woooooooooo
-
     void Start()
     {
         mainCamera = Camera.main;
         if (mainCamera == null)
-            Debug.LogWarning("No main camera found, tag your camera as MainCamera idiot");
+            Debug.LogWarning("You gotta tag your camera as main camera idiot");
     }
 
     void Update()
@@ -77,4 +75,13 @@ public class RingRotate : MonoBehaviour
             transform.localEulerAngles = localEuler;
         }
     }
+
+    
+    public void ResetRotation()
+    {
+        Vector3 localEuler = transform.localEulerAngles;
+        localEuler.z = -90f;  // Reset Z to the starting rotation
+        transform.localEulerAngles = localEuler;
+    }
+
 }

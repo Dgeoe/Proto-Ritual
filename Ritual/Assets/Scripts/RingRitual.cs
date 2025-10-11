@@ -11,19 +11,25 @@ public class RingRitual : MonoBehaviour
     public float moveSpeedToRing = 2f;
     public float rotationSpeedToRing = 2f;
 
+    [Header("Rings")]
+    public RingRotate[] rings; 
+
     private bool isInRingMode = false;
     private bool isTransitioning = false;
+    private bool ritualCompleted = false; 
     private Vector3 startPos;
     private Quaternion startRot;
     private Vector3 targetPos;
     private Quaternion targetRot;
     private float transitionProgress = 0f;
 
-    public bool IsInRingMode => isInRingMode; 
+    public bool IsInRingMode => isInRingMode;
+
     
-    //Don't ask me why there's 4 different scripts for this one thing
-    //I'm sick and for some reason this is the only way it doesn't break
-    //I'll try fix it lateerrrrrrrr
+    public void MarkRitualCompleted()
+    {
+        ritualCompleted = true;
+    }
 
     void Update()
     {
@@ -82,7 +88,15 @@ public class RingRitual : MonoBehaviour
         playerMovement.enabled = true;
 
         playerMovement.ResetLookInput();
-    }
 
-    
+        
+        if (!ritualCompleted && rings != null)
+        {
+            foreach (RingRotate ring in rings)
+            {
+                ring.ResetRotation();
+            }
+        }
+    }
 }
+

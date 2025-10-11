@@ -80,7 +80,7 @@ public class RingRotate : MonoBehaviour
     public void ResetRotation()
     {
         Vector3 localEuler = transform.localEulerAngles;
-        localEuler.z = -90f;  // Reset Z to the starting rotation
+        localEuler.z = -90f;  
         transform.localEulerAngles = localEuler;
     }
 

@@ -71,7 +71,8 @@ public class DragNDrop : MonoBehaviour
         }
         else
         {
-            StartCoroutine(StopFollowingAfterDelay(2f));
+            //Change to 2 seconds onec animations are impleemnted for potions
+            StartCoroutine(StopFollowingAfterDelay(0.1f));
         }
     }
 

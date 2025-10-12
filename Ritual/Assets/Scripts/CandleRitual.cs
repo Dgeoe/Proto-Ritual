@@ -9,29 +9,32 @@ public class CandleRitual : MonoBehaviour
     public GameObject candle2;
     public GameObject candle3;
     public GameObject candle4;
-    public GameObject candle5; 
-    public GameObject candle6; 
+    public GameObject candle5;
+    public GameObject candle6;
 
     [Header("Candle Flames")]
     public ParticleSystem flame1;
     public ParticleSystem flame2;
     public ParticleSystem flame3;
     public ParticleSystem flame4;
-    public ParticleSystem flame5; 
-    public ParticleSystem flame6; 
+    public ParticleSystem flame5;
+    public ParticleSystem flame6;
 
     [Header("Ritual Settings")]
-    public SymbolManager symbolManager; 
-    [HideInInspector] public int numberOfActiveCandles; 
+    public SymbolManager symbolManager;
+    [HideInInspector] public int numberOfActiveCandles;
 
     [Header("Player Interaction")]
-    public PlayerMovement playerMovement; 
-    public Transform candleFocusPosition; 
+    public PlayerMovement playerMovement;
+    public Transform candleFocusPosition;
     private bool isInCandleMode = false;
 
     [Header("Candle Mode Transition")]
-    public float moveSpeedToCandle = 2f;       
-    public float rotationSpeedToCandle = 2f;   
+    public float moveSpeedToCandle = 2f;
+    public float rotationSpeedToCandle = 2f;
+
+    [Header("Audio")]
+    public AudioSource ritualCompleteSound; 
 
     private bool isTransitioning = false;
     private Vector3 startPos;
@@ -44,6 +47,8 @@ public class CandleRitual : MonoBehaviour
     private List<ParticleSystem> candleFlames = new List<ParticleSystem>();
     private List<int> targetCandleIndexes = new List<int>();
     private List<int> playerLitCandles = new List<int>();
+
+    private bool ritualCompleted = false;
 
     void OnEnable()
     {
@@ -59,7 +64,6 @@ public class CandleRitual : MonoBehaviour
 
     void Start()
     {
-        
         numberOfActiveCandles = Random.Range(4, 7);
         Debug.Log("Number of candles this round: " + numberOfActiveCandles);
 
@@ -70,7 +74,6 @@ public class CandleRitual : MonoBehaviour
 
     void Update()
     {
-        
         if (isTransitioning)
         {
             transitionProgress += Time.deltaTime * moveSpeedToCandle;
@@ -82,7 +85,6 @@ public class CandleRitual : MonoBehaviour
                 isTransitioning = false;
         }
 
-        
         if (isInCandleMode && !isTransitioning)
         {
             if (Keyboard.current.wKey.isPressed || Keyboard.current.aKey.isPressed ||
@@ -130,7 +132,6 @@ public class CandleRitual : MonoBehaviour
         if (numberOfActiveCandles == 6)
             candleFlames.Add(flame6);
 
-        // Ensure all flames are off at start
         foreach (ParticleSystem flame in candleFlames)
         {
             if (flame != null)
@@ -152,25 +153,21 @@ public class CandleRitual : MonoBehaviour
                 else if (numberOfActiveCandles == 5) targetCandleIndexes.AddRange(new int[] { 0, 2 });
                 else targetCandleIndexes.AddRange(new int[] { 0, 3 });
                 break;
-
             case SymbolManager.SymbolType.Star:
                 if (numberOfActiveCandles == 4) targetCandleIndexes.AddRange(new int[] { 1, 2 });
                 else if (numberOfActiveCandles == 5) targetCandleIndexes.AddRange(new int[] { 0, 4 });
                 else targetCandleIndexes.AddRange(new int[] { 1, 5 });
                 break;
-
             case SymbolManager.SymbolType.Square:
                 if (numberOfActiveCandles == 4) targetCandleIndexes.AddRange(new int[] { 2, 3 });
                 else if (numberOfActiveCandles == 5) targetCandleIndexes.AddRange(new int[] { 1, 3 });
                 else targetCandleIndexes.AddRange(new int[] { 2, 4 });
                 break;
-
             case SymbolManager.SymbolType.Eyeball:
                 if (numberOfActiveCandles == 4) targetCandleIndexes.AddRange(new int[] { 0, 3 });
                 else if (numberOfActiveCandles == 5) targetCandleIndexes.AddRange(new int[] { 1, 4 });
                 else targetCandleIndexes.AddRange(new int[] { 0, 5 });
                 break;
-
             case SymbolManager.SymbolType.DoubleEyeball:
                 if (numberOfActiveCandles == 4) targetCandleIndexes.AddRange(new int[] { 0, 2 });
                 else if (numberOfActiveCandles == 5) targetCandleIndexes.AddRange(new int[] { 1, 3 });
@@ -249,8 +246,14 @@ public class CandleRitual : MonoBehaviour
 
         if (playerSet.SetEquals(targetSet))
         {
-            Debug.Log("Ritual successful!");
-            ProceedToNextStep();
+            if (!ritualCompleted)
+            {
+                ritualCompleted = true;
+                Debug.Log("Candle Ritual Complete");
+
+                if (ritualCompleteSound != null)
+                    ritualCompleteSound.Play();
+            }
         }
         else
         {
@@ -271,10 +274,5 @@ public class CandleRitual : MonoBehaviour
             if (flame != null)
                 flame.Stop();
         }
-    }
-
-    void ProceedToNextStep()
-    {
-        Debug.Log("Proceeding to next ritual step...");
     }
 }

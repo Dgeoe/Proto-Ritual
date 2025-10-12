@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class CandleClick : MonoBehaviour
 {
-    public int candleID; // 0 to 5
+    public int candleID; 
     public CandleRitual ritualManager;
     public Camera mainCamera;
 

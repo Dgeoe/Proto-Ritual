@@ -36,7 +36,10 @@ public class ClickTester : MonoBehaviour
             mainCamera = Camera.main;
 
         myCollider = GetComponent<Collider>();
+    }
 
+    private void Start()
+    {
         foreach (BoxCollider box in BoxColliders)
         {
             box.enabled = false;

@@ -1,14 +1,19 @@
 using UnityEngine;
-using UnityEngine.UI; 
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class GameOver : MonoBehaviour
 {
-    [SerializeField] private float startTime = 120f; 
+    [SerializeField] private float startTime = 120f;
     private float currentTime;
 
-    [SerializeField] private Text timerText; 
-
+    [SerializeField] private Text timerText;
     private bool isRunning = false;
+
+    [Header("Jumpscare Settings")]
+    [SerializeField] private AudioSource jumpscareAudio; 
+    [SerializeField] private float delayBeforeNextScene = 0.5f; 
 
     void Start()
     {
@@ -38,10 +43,35 @@ public class GameOver : MonoBehaviour
         }
     }
 
-    private void OnTimerEnd()
+    public void OnTimerEnd()
     {
-        Debug.Log("[JUMPSCARE HERE]!");
-        Debug.Log("[SCREAM NOW]!");
+        StartCoroutine(JumpscareSequence());
+    }
+
+    private IEnumerator JumpscareSequence()
+    {
+      
+        if (jumpscareAudio != null)
+        {
+            jumpscareAudio.Play();
+            
+            yield return new WaitForSeconds(jumpscareAudio.clip.length + delayBeforeNextScene);
+        }
+        else
+        {
+            Debug.LogWarning("No jumpscare audio assigned");
+        }
+
+        
+        int nextSceneIndex = SceneManager.GetActiveScene().buildIndex + 1;
+        if (nextSceneIndex < SceneManager.sceneCountInBuildSettings)
+        {
+            SceneManager.LoadScene(nextSceneIndex);
+        }
+        else
+        {
+            Debug.LogWarning("No next scene found");
+        }
     }
 
     public void ResetTimer() => currentTime = startTime;

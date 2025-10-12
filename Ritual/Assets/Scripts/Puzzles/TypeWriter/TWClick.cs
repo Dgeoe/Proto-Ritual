@@ -10,6 +10,8 @@ public class TWClick : MonoBehaviour
     public Camera mainCamera;
     public MonsterTypeChooser monsterTypeChooser;
 
+    public FinalTaskTracker finalTaskTracker;
+
     [Header("Audio")]
     public AudioSource correctSFX;
     public AudioSource wrongSFX;
@@ -83,8 +85,9 @@ public class TWClick : MonoBehaviour
 
             if (playerSet.SetEquals(correctButtons))
             {
-                
+
                 Debug.Log("All buttons correct!");
+                finalTaskTracker.Correct3 = true;
 
                 if (hourglassLight3 != null)
                     hourglassLight3.SetActive(true);

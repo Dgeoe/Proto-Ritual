@@ -19663,6 +19663,12 @@ MonoBehaviour:
   playerMovement: {fileID: 182516308}
   TrackBars: {fileID: 2083260888}
   LiquidMix: {fileID: 679335009}
+  BoxColliders:
+  - {fileID: 999036127}
+  - {fileID: 2098589721}
+  - {fileID: 360144284}
+  - {fileID: 568437494}
+  - {fileID: 679335008}
   moveSpeed: 2
   rotationSpeed: 2
 --- !u!1 &396315734
@@ -53691,6 +53697,16 @@ MonoBehaviour:
   playerMovement: {fileID: 182516308}
   TrackBars: {fileID: 0}
   LiquidMix: {fileID: 0}
+  BoxColliders:
+  - {fileID: 1164064944}
+  - {fileID: 1604953765}
+  - {fileID: 289649529}
+  - {fileID: 740487516}
+  - {fileID: 997471408}
+  - {fileID: 477776851}
+  - {fileID: 822184886}
+  - {fileID: 2099075981}
+  - {fileID: 658513213}
   moveSpeed: 2
   rotationSpeed: 2
 --- !u!1001 &2007254675

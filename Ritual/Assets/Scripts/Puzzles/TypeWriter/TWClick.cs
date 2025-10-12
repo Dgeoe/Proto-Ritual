@@ -14,6 +14,11 @@ public class TWClick : MonoBehaviour
     public AudioSource correctSFX;
     public AudioSource wrongSFX;
 
+    [Header("Victory Effects")]
+    public GameObject hourglassLight3; 
+    public AudioSource winChime;       
+
+
     public float clickResetDelay = 0.3f; //The time for naimtion click length
     [SerializeField] private string correctButtonsDisplay = "";
 
@@ -64,27 +69,42 @@ public class TWClick : MonoBehaviour
 
     private void ProcessButtonPress(int buttonNumber)
     {
-        if (correctButtons.Contains(buttonNumber))
-        {
-            if (!pressedButtons.Contains(buttonNumber))
-            {
-                pressedButtons.Add(buttonNumber);
-                correctSFX?.Play();
-                Debug.Log($"Correct button {buttonNumber}!");
+       
+        pressedButtons.Add(buttonNumber);
 
-                if (pressedButtons.Count == correctButtons.Count)
-                {
-                    Debug.Log("YAY!");
-                }
-            }
-        }
-        else
+        
+        correctSFX?.Play();
+
+        
+        if (pressedButtons.Count == 4)
         {
-            wrongSFX?.Play();
+            
+            HashSet<int> playerSet = new HashSet<int>(pressedButtons);
+
+            if (playerSet.SetEquals(correctButtons))
+            {
+                
+                Debug.Log("All buttons correct!");
+
+                if (hourglassLight3 != null)
+                    hourglassLight3.SetActive(true);
+
+                if (winChime != null)
+                    winChime.Play();
+            }
+            else
+            {
+                
+                Debug.Log("Incorrect combination!");
+                wrongSFX?.Play();
+            }
+
+            
             pressedButtons.Clear();
-            Debug.Log($"Wrong button");
         }
     }
+
+
 
     private IEnumerator PlayButtonClickAnimation(Animator anim)
     {

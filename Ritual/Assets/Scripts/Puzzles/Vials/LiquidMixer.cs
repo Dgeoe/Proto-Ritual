@@ -19,7 +19,6 @@ public class LiquidMixer : MonoBehaviour
 
     [SerializeField] private Camera mainCamera;
 
-    // Instance events (display subscribes to this specific mixer instance)
     public event System.Action<LiquidType> OnColorAdded;
     public event System.Action OnMixCleared;
 
@@ -131,7 +130,7 @@ public class LiquidMixer : MonoBehaviour
         }
     }
 
-    private void ClearAllFills()
+    public void ClearAllFills()
     {
         redFill = greenFill = yellowFill = blueFill = 0f;
         Debug.Log("LiquidMixer: cleared fills -> invoking OnMixCleared");

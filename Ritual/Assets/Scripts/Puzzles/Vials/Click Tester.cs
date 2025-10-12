@@ -7,8 +7,9 @@ public class ClickTester : MonoBehaviour
     [SerializeField] private Camera mainCamera;
     [SerializeField] private Transform playerTransform;
     [SerializeField] private Transform focusPosition;
-    [SerializeField] private PlayerMovement playerMovement; 
+    [SerializeField] private PlayerMovement playerMovement;
     public GameObject TrackBars;
+    public LiquidMixer LiquidMix;
 
     [Header("Transition Settings")]
     [SerializeField] private float moveSpeed = 2f;
@@ -160,7 +161,10 @@ public class ClickTester : MonoBehaviour
         if (TrackBars != null)
             TrackBars.SetActive(false);
 
-        Debug.Log("Returning from focus mode...");
+        if (LiquidMix != null)
+            LiquidMix.ClearAllFills();
+
+        Debug.Log("Returning from focus mode");
     }
 
 }

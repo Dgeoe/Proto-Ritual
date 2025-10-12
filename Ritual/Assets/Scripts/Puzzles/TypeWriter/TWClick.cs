@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -13,6 +14,7 @@ public class TWClick : MonoBehaviour
     public AudioSource correctSFX;
     public AudioSource wrongSFX;
 
+    public float clickResetDelay = 0.3f; //The time for naimtion click length
     [SerializeField] private string correctButtonsDisplay = "";
 
     private int typewriterLayerMask;
@@ -25,7 +27,6 @@ public class TWClick : MonoBehaviour
             mainCamera = Camera.main;
 
         typewriterLayerMask = LayerMask.GetMask("Typewriter");
-
         if (monsterTypeChooser == null)
         {
             Debug.LogError("MonsterTypeChooser not found in scene!");
@@ -43,6 +44,11 @@ public class TWClick : MonoBehaviour
             if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, typewriterLayerMask))
             {
                 GameObject clickedObject = hit.collider.gameObject;
+
+                // Trigger button animation please work!
+                Animator anim = clickedObject.GetComponent<Animator>();
+                if (anim != null)
+                    StartCoroutine(PlayButtonClickAnimation(anim));
 
                 if (int.TryParse(Regex.Replace(clickedObject.name, @"\D", ""), out int buttonNumber))
                 {
@@ -64,11 +70,11 @@ public class TWClick : MonoBehaviour
             {
                 pressedButtons.Add(buttonNumber);
                 correctSFX?.Play();
-                Debug.Log($" Correct button {buttonNumber} pressed!");
+                Debug.Log($"Correct button {buttonNumber}!");
 
                 if (pressedButtons.Count == correctButtons.Count)
                 {
-                    Debug.Log(" YAY!");
+                    Debug.Log("YAY!");
                 }
             }
         }
@@ -76,8 +82,15 @@ public class TWClick : MonoBehaviour
         {
             wrongSFX?.Play();
             pressedButtons.Clear();
-            Debug.Log($"Wrong button {buttonNumber}!");
+            Debug.Log($"Wrong button");
         }
+    }
+
+    private IEnumerator PlayButtonClickAnimation(Animator anim)
+    {
+        anim.SetBool("Clicked", true);
+        yield return new WaitForSeconds(clickResetDelay);
+        anim.SetBool("Clicked", false);
     }
 
     private void SetCorrectButtons()
@@ -113,3 +126,4 @@ public class TWClick : MonoBehaviour
         pressedButtons.Clear();
     }
 }
+

@@ -3,12 +3,15 @@ using UnityEngine;
 public class RingWinManager : MonoBehaviour
 {
     [Header("References")]
-    public SeeingGlass seeingGlass; 
+    public SeeingGlass seeingGlass;
     public Transform outerRing;
     public Transform middleRing;
     public Transform innerRing;
-    public RingRitual ringRitual; 
-    public AudioSource ritualCompleteSound; 
+    public RingRitual ringRitual;
+    public AudioSource ritualCompleteSound;
+
+    [Header("Hourglass Light")]
+    public GameObject hourglassLight4; // Drag the GameObject here in the Inspector
 
     private bool ritualComplete = false;
 
@@ -21,19 +24,18 @@ public class RingWinManager : MonoBehaviour
 
         int setIndex = seeingGlass.chosenSetIndex;
 
-        
         switch (setIndex)
         {
-            case 0: 
+            case 0:
                 if (CheckRings(180f, 90f, 0f)) CompleteRitual();
                 break;
-            case 1: 
+            case 1:
                 if (CheckRings(90f, 270f, 90f)) CompleteRitual();
                 break;
-            case 2: 
+            case 2:
                 if (CheckRings(90f, 90f, 180f)) CompleteRitual();
                 break;
-            case 3: 
+            case 3:
                 if (CheckRings(0f, 180f, 90f)) CompleteRitual();
                 break;
         }
@@ -68,11 +70,15 @@ public class RingWinManager : MonoBehaviour
         ritualComplete = true;
         Debug.Log("Ring Ritual Complete");
 
-        
+        // Play ritual complete sound
         if (ritualCompleteSound != null)
             ritualCompleteSound.Play();
 
-        
+        // Activate Hourglass Light 4
+        if (hourglassLight4 != null)
+            hourglassLight4.SetActive(true);
+
+        // Notify ring ritual
         ringRitual.MarkRitualCompleted();
     }
 }

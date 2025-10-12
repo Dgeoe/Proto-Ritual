@@ -6,15 +6,30 @@ public class RingRotate : MonoBehaviour
     private Camera mainCamera;
     private bool isDragging = false;
     private Vector3 previousMousePos;
+    private float previousZ = 0f;
 
     [SerializeField] private float rotationDirection = -1f;
     [SerializeField] private float snapThreshold = 5f;
+
+    [Header("Audio")]
+    public AudioSource grindingAudio;      // The looping grind sound
+    [Range(0f, 1f)] public float maxVolume = 0.8f;
+    [Range(0f, 10f)] public float volumeSensitivity = 2f;
 
     void Start()
     {
         mainCamera = Camera.main;
         if (mainCamera == null)
-            Debug.LogWarning("You gotta tag your camera as main camera idiot");
+            Debug.LogWarning("Tag your main camera!");
+
+        previousZ = transform.localEulerAngles.z;
+
+        if (grindingAudio != null)
+        {
+            grindingAudio.loop = true;
+            grindingAudio.playOnAwake = false;
+            grindingAudio.volume = 0f;
+        }
     }
 
     void Update()
@@ -30,6 +45,9 @@ public class RingRotate : MonoBehaviour
                 {
                     isDragging = true;
                     previousMousePos = mousePos;
+
+                    if (grindingAudio != null && !grindingAudio.isPlaying)
+                        grindingAudio.Play();
                 }
             }
         }
@@ -40,6 +58,9 @@ public class RingRotate : MonoBehaviour
             {
                 isDragging = false;
                 SnapIfWithinThreshold();
+
+                if (grindingAudio != null)
+                    grindingAudio.Stop();
             }
         }
 
@@ -48,6 +69,8 @@ public class RingRotate : MonoBehaviour
             RotateRing(mousePos);
             previousMousePos = mousePos;
         }
+
+        UpdateGrindingAudio();
     }
 
     private void RotateRing(Vector2 currentMousePos)
@@ -57,8 +80,26 @@ public class RingRotate : MonoBehaviour
         Vector2 currDir = ((Vector2)currentMousePos - (Vector2)centerScreenPos).normalized;
 
         float angle = Vector2.SignedAngle(prevDir, currDir);
+        float deltaRotation = angle * rotationDirection;
 
-        transform.Rotate(0f, 0f, angle * rotationDirection, Space.Self);
+        transform.Rotate(0f, 0f, deltaRotation, Space.Self);
+    }
+
+    private void UpdateGrindingAudio()
+    {
+        if (grindingAudio == null || !grindingAudio.isPlaying) return;
+
+        // Calculate how much the local Z changed since last frame
+        float currentZ = transform.localEulerAngles.z;
+        float deltaZ = Mathf.DeltaAngle(previousZ, currentZ);
+        previousZ = currentZ;
+
+        // Absolute rotation speed
+        float angularSpeed = Mathf.Abs(deltaZ) / Time.deltaTime;
+
+        // Scale volume with speed
+        float targetVolume = Mathf.Clamp01((angularSpeed / 360f) * volumeSensitivity) * maxVolume;
+        grindingAudio.volume = Mathf.MoveTowards(grindingAudio.volume, targetVolume, Time.deltaTime * 10f);
     }
 
     private void SnapIfWithinThreshold()
@@ -76,12 +117,10 @@ public class RingRotate : MonoBehaviour
         }
     }
 
-    
     public void ResetRotation()
     {
         Vector3 localEuler = transform.localEulerAngles;
-        localEuler.z = -90f;  
+        localEuler.z = -90f;
         transform.localEulerAngles = localEuler;
     }
-
 }

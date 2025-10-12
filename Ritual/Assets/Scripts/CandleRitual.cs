@@ -34,7 +34,12 @@ public class CandleRitual : MonoBehaviour
     public float rotationSpeedToCandle = 2f;
 
     [Header("Audio")]
-    public AudioSource ritualCompleteSound; 
+    public AudioSource ritualCompleteSound;
+    public AudioSource candleClickSound;
+    public AudioClip candleToggleClip;
+
+    [Header("Lighting Effects")]
+    public GameObject hourglassLight2;   
 
     private bool isTransitioning = false;
     private Vector3 startPos;
@@ -70,6 +75,9 @@ public class CandleRitual : MonoBehaviour
         SetupCandles();
         SetupFlames();
         DetermineTargetCandles();
+
+        if (hourglassLight2 != null)
+            hourglassLight2.SetActive(false); 
     }
 
     void Update()
@@ -116,11 +124,6 @@ public class CandleRitual : MonoBehaviour
             activeCandles.Add(candle6);
         }
         else candle6.SetActive(false);
-
-        for (int i = 0; i < activeCandles.Count; i++)
-        {
-            Debug.Log($"Active candle {i} = {activeCandles[i].name}");
-        }
     }
 
     void SetupFlames()
@@ -174,8 +177,6 @@ public class CandleRitual : MonoBehaviour
                 else targetCandleIndexes.AddRange(new int[] { 2, 5 });
                 break;
         }
-
-        Debug.Log($"Target candle indexes: {string.Join(",", targetCandleIndexes)}");
     }
 
     public void ToggleCandle(int candleID)
@@ -188,7 +189,9 @@ public class CandleRitual : MonoBehaviour
             return;
         }
 
-        if (playerLitCandles.Contains(candleID))
+        bool wasLit = playerLitCandles.Contains(candleID);
+
+        if (wasLit)
         {
             playerLitCandles.Remove(candleID);
             if (candleFlames[candleID] != null)
@@ -199,6 +202,14 @@ public class CandleRitual : MonoBehaviour
             playerLitCandles.Add(candleID);
             if (candleFlames[candleID] != null)
                 candleFlames[candleID].Play();
+        }
+
+        if (candleClickSound != null)
+        {
+            if (candleToggleClip != null)
+                candleClickSound.PlayOneShot(candleToggleClip);
+            else
+                candleClickSound.Play();
         }
 
         CheckSuccess();
@@ -216,7 +227,7 @@ public class CandleRitual : MonoBehaviour
         startRot = playerMovement.transform.rotation;
 
         targetPos = candleFocusPosition.position;
-        targetRot = Quaternion.Euler(playerMovement.transform.rotation.eulerAngles.x, -164.105f, playerMovement.transform.rotation.eulerAngles.z);
+        targetRot = Quaternion.Euler(playerMovement.transform.rotation.eulerAngles.x, -141f, playerMovement.transform.rotation.eulerAngles.z);
 
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
@@ -253,6 +264,9 @@ public class CandleRitual : MonoBehaviour
 
                 if (ritualCompleteSound != null)
                     ritualCompleteSound.Play();
+
+                if (hourglassLight2 != null)
+                    hourglassLight2.SetActive(true); 
             }
         }
         else

@@ -70,15 +70,15 @@ public class RingWinManager : MonoBehaviour
         ritualComplete = true;
         Debug.Log("Ring Ritual Complete");
 
-        // Play ritua
+       
         if (ritualCompleteSound != null)
-            ritualCompleteSound.Pl complete soundlay();
+            ritualCompleteSound.Play();
 
-        // Activate Hourglass Light 4
+        
         if (hourglassLight4 != null)
             hourglassLight4.SetActive(true);
 
-        // Notify ring ritual
+        
         ringRitual.MarkRitualCompleted();
     }
 }

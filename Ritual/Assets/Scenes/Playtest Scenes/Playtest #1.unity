@@ -25646,7 +25646,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   animationName: Patrol
-  speeds: 0.3
+  speeds: 0.2
 --- !u!1 &886040520
 GameObject:
   m_ObjectHideFlags: 0
@@ -40947,10 +40947,20 @@ MonoBehaviour:
   uiCanvas: {fileID: 490786257}
   SymbolsParent: {fileID: 842552704}
   globalVolume: {fileID: 141909096}
+  MonsterPos: {fileID: 1351260670}
   fadeDuration: 0.5
   vignetteTargetIntensity: 0.513
   bloomTargetIntensity: 0.18
   chromaticTargetIntensity: 0.67
+  diamondLights: []
+  diamondColors: []
+  hourglassLights: []
+  hourglassColors: []
+  tridentLights: []
+  tridentColors: []
+  helixLights: []
+  helixColors: []
+  chosenSetIndex: 0
 --- !u!4 &1410652367
 Transform:
   m_ObjectHideFlags: 0
@@ -48505,6 +48515,7 @@ MonoBehaviour:
   candleFocusPosition: {fileID: 396315735}
   moveSpeedToCandle: 2
   rotationSpeedToCandle: 2
+  ritualCompleteSound: {fileID: 0}
 --- !u!4 &1709849046
 Transform:
   m_ObjectHideFlags: 0

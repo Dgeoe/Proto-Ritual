@@ -20,7 +20,7 @@ public class MonsterPositions : MonoBehaviour
 
     private void RandomPosition()
     {
-        MiniJumpScare.SetActive(false);  
+        miniJumpScare.SetActive(false);  
         foreach (GameObject i in Positions)
         {
             i.SetActive(false);
@@ -49,7 +49,7 @@ public class MonsterPositions : MonoBehaviour
 
     private void MiniJumpscare()
     {
-        MiniJumpScare.SetActive(true);  
+        miniJumpScare.SetActive(true);  
         //Get Player Position 
         //TP GameObject to be infront of that position
         //Set Salt Circle Spawn Limits
@@ -66,6 +66,15 @@ public class MonsterPositions : MonoBehaviour
         {
             RandomPosition();
         }
+    }
+
+    public void DisableOnSpace()
+    {
+        foreach (GameObject i in Positions)
+        {
+            i.SetActive(false);
+        }
+        miniJumpScare.SetActive(false);
     }
     public void Jumpscare()
     {

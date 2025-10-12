@@ -10,6 +10,7 @@ public class SeeingGlass : MonoBehaviour
     public Canvas uiCanvas;
     public GameObject SymbolsParent;
     public Volume globalVolume;
+    public MonsterPositions MonsterPos; //for jumpscares and animations
 
     [Header("Fade Settings")]
     public float fadeDuration = 1f;
@@ -45,7 +46,8 @@ public class SeeingGlass : MonoBehaviour
     private ChromaticAberration chromatic;
     private CanvasGroup uiCanvasGroup;
 
-    public int chosenSetIndex; 
+    public int chosenSetIndex;
+    private int SpaceBar = 10;
 
     void Awake()
     {
@@ -116,6 +118,16 @@ public class SeeingGlass : MonoBehaviour
         if (Keyboard.current.spaceKey.wasPressedThisFrame)
         {
             ToggleSeeingGlass();
+            if (SpaceBar == 10)
+            {
+                MonsterPos.DisableOnSpace();
+                SpaceBar = 0;
+            }
+            else
+            {
+                MonsterPos.ForSeeingGlass();
+                SpaceBar = 10;
+            }
         }
 
         if (fadeTimer > 0f)

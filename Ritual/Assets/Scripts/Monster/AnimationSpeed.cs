@@ -11,4 +11,11 @@ public class AnimationSpeed : MonoBehaviour
         anim[animationName].speed = speeds;
         anim.Play(animationName);
     }
+
+    void OnEnable()
+    {
+        Animation anim = GetComponent<Animation>();
+        anim[animationName].speed = speeds;
+        anim.Play(animationName);
+    }
 }

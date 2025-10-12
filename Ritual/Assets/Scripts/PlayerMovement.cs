@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI; 
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerMovement : MonoBehaviour
@@ -9,7 +10,7 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Movement Settings")]
     public float moveSpeed = 5f;
-    public float mouseSensitivity = 2f;
+    public float mouseSensitivity = 2f; 
     public float gravity = -9.81f;
 
     [Header("Input")]
@@ -25,7 +26,6 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 velocity;
     private float xRotation = 0f;
 
-    
     public System.Action OnPlayerMoved;
 
     void Awake()
@@ -41,6 +41,9 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
+        
+        mouseSensitivity = PlayerPrefs.GetFloat("MouseSensitivity", 2f);
+
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
@@ -60,12 +63,10 @@ public class PlayerMovement : MonoBehaviour
         lookAction?.Enable();
     }
 
-
     public void ResetLookInput()
     {
         lookInput = Vector2.zero;
     }
-
 
     private void HandleMovement()
     {
@@ -80,7 +81,6 @@ public class PlayerMovement : MonoBehaviour
         Vector3 finalMove = move + velocity;
         controller.Move(finalMove * Time.deltaTime);
 
-        
         if (moveInput.magnitude > 0.1f && OnPlayerMoved != null)
             OnPlayerMoved.Invoke();
     }
@@ -91,7 +91,7 @@ public class PlayerMovement : MonoBehaviour
         float mouseY = lookInput.y * mouseSensitivity * Time.deltaTime;
 
         xRotation -= mouseY;
-        xRotation = Mathf.Clamp(xRotation, -30f, 30f);
+        xRotation = Mathf.Clamp(xRotation, -30f, 50f);
 
         cameraTransform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
         transform.Rotate(Vector3.up * mouseX);
@@ -101,5 +101,13 @@ public class PlayerMovement : MonoBehaviour
     {
         moveAction.Disable();
         lookAction.Disable();
+    }
+
+    
+    public void SetMouseSensitivity(float value)
+    {
+        mouseSensitivity = value;
+        PlayerPrefs.SetFloat("MouseSensitivity", value);
+        PlayerPrefs.Save();
     }
 }

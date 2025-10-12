@@ -19626,6 +19626,7 @@ MonoBehaviour:
   focusPosition: {fileID: 1396414027}
   playerMovement: {fileID: 182516308}
   TrackBars: {fileID: 2083260888}
+  LiquidMix: {fileID: 679335009}
   moveSpeed: 2
   rotationSpeed: 2
 --- !u!1 &396315734
@@ -53535,6 +53536,7 @@ MonoBehaviour:
   focusPosition: {fileID: 97841141}
   playerMovement: {fileID: 182516308}
   TrackBars: {fileID: 0}
+  LiquidMix: {fileID: 0}
   moveSpeed: 2
   rotationSpeed: 2
 --- !u!1001 &2007254675

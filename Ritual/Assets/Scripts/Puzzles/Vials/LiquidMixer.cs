@@ -21,6 +21,7 @@ public class LiquidMixer : MonoBehaviour
 
     public event System.Action<LiquidType> OnColorAdded;
     public event System.Action OnMixCleared;
+    public GameObject PotionBroth;
 
     private void Awake()
     {
@@ -148,7 +149,14 @@ public class LiquidMixer : MonoBehaviour
         bool success = liquidHolder.CheckRatios(redFill, greenFill, yellowFill, blueFill);
 
         if (success)
+        {
             Debug.Log("YAY!!!! PotioTime");
+            if (PotionBroth != null)
+            {
+                PotionBroth.SetActive(true);
+            }
+            
+        }
         else
             Debug.Log("Keep mixing!");
     }

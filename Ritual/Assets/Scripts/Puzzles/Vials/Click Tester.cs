@@ -14,6 +14,9 @@ public class ClickTester : MonoBehaviour
     [SerializeField] private float moveSpeed = 2f;
     [SerializeField] private float rotationSpeed = 2f;
 
+    private Vector3 originalPos;
+    private Quaternion originalRot;
+
     private bool isInFocusMode = false;
     private bool isTransitioning = false;
     private float transitionProgress = 0f;
@@ -79,6 +82,15 @@ public class ClickTester : MonoBehaviour
                 ExitFocusMode();
             }
         }
+
+        if (transitionProgress >= 1f)
+        {
+            isTransitioning = false;
+
+            if (!isInFocusMode)
+                playerMovement.enabled = true; 
+        }
+
     }
 
     private void OnClicked()
@@ -93,11 +105,15 @@ public class ClickTester : MonoBehaviour
 
     private void EnterFocusMode()
     {
+
         if (playerMovement == null || focusPosition == null || playerTransform == null) return;
 
         isInFocusMode = true;
         isTransitioning = true;
         transitionProgress = 0f;
+
+        originalPos = playerTransform.position;
+        originalRot = playerTransform.rotation;
 
         startPos = playerTransform.position;
         startRot = playerTransform.rotation;
@@ -110,7 +126,14 @@ public class ClickTester : MonoBehaviour
 
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-        TrackBars.SetActive(true);
+        if (TrackBars != null)
+        {
+            TrackBars.SetActive(true);
+        }
+        else
+        {
+            Debug.Log("Typewriter Enter");
+        }
 
     }
 
@@ -119,15 +142,25 @@ public class ClickTester : MonoBehaviour
         if (!isInFocusMode) return;
 
         isInFocusMode = false;
+        isTransitioning = true;
+        transitionProgress = 0f;
 
-        playerMovement.enabled = true;
+        startPos = playerTransform.position;
+        startRot = playerTransform.rotation;
+        targetPos = originalPos;
+        targetRot = originalRot;
+
+        playerMovement.enabled = false; 
         if (myCollider != null)
             myCollider.enabled = true;
 
         Cursor.lockState = CursorLockMode.Locked;
-        //Cursor.visible = false;
-        TrackBars.SetActive(false);
+        Cursor.visible = false;
 
-        playerMovement.ResetLookInput();
+        if (TrackBars != null)
+            TrackBars.SetActive(false);
+
+        Debug.Log("Returning from focus mode...");
     }
+
 }

@@ -9,6 +9,7 @@ public class MonsterTypeChooser : MonoBehaviour
     public bool Backstabbed;
     public bool Burnt;
     public bool Blood;
+    public FinalTaskTracker finalTaskTracker;
 
     private void Awake()
     {
@@ -62,6 +63,10 @@ public class MonsterTypeChooser : MonoBehaviour
                 break;
             case 3:
                 Blood = true;
+                if (finalTaskTracker.Candles1to3 == false && finalTaskTracker.RedVial == false)
+                {
+                    finalTaskTracker.bloody = true;
+                }
                 break;
             default:
                 Debug.LogWarning("Unexpected texture index; no state set.");

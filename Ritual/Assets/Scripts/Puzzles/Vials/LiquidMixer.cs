@@ -21,6 +21,9 @@ public class LiquidMixer : MonoBehaviour
 
     public event System.Action<LiquidType> OnColorAdded;
     public event System.Action OnMixCleared;
+    public GameObject PotionBroth;
+    public AudioSource Pour;
+    public FinalTaskTracker finalTaskTracker;
 
     private void Awake()
     {
@@ -99,24 +102,28 @@ public class LiquidMixer : MonoBehaviour
             redFill = Mathf.Min(100, redFill + 25);
             added = LiquidType.Red;
             Debug.Log($"Red fill: {redFill}");
+            Pour.Play();
         }
         else if (liquidHolder.greenActive)
         {
             greenFill = Mathf.Min(100, greenFill + 25);
             added = LiquidType.Green;
             Debug.Log($"Green fill: {greenFill}");
+            Pour.Play();
         }
         else if (liquidHolder.yellowActive)
         {
             yellowFill = Mathf.Min(100, yellowFill + 25);
             added = LiquidType.Yellow;
             Debug.Log($"Yellow fill: {yellowFill}");
+            Pour.Play();
         }
         else if (liquidHolder.blueActive)
         {
             blueFill = Mathf.Min(100, blueFill + 25);
             added = LiquidType.Blue;
             Debug.Log($"Blue fill: {blueFill}");
+            Pour.Play();
         }
         else
         {
@@ -148,7 +155,25 @@ public class LiquidMixer : MonoBehaviour
         bool success = liquidHolder.CheckRatios(redFill, greenFill, yellowFill, blueFill);
 
         if (success)
+        {
             Debug.Log("YAY!!!! PotioTime");
+            if (PotionBroth != null)
+            {
+                PotionBroth.SetActive(true);
+            }
+
+            if (redFill != 0)
+            {
+                if (finalTaskTracker.Candles1to3 == false)
+                {
+                    finalTaskTracker.RedVial = true;
+                }
+                
+            }
+
+            finalTaskTracker.Correct2 = true;
+            
+        }
         else
             Debug.Log("Keep mixing!");
     }

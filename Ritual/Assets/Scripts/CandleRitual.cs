@@ -39,7 +39,9 @@ public class CandleRitual : MonoBehaviour
     public AudioClip candleToggleClip;
 
     [Header("Lighting Effects")]
-    public GameObject hourglassLight2;   
+    public GameObject hourglassLight2;
+
+    public FinalTaskTracker finaltasktracker;
 
     private bool isTransitioning = false;
     private Vector3 startPos;
@@ -152,6 +154,7 @@ public class CandleRitual : MonoBehaviour
         switch (activeSymbol)
         {
             case SymbolManager.SymbolType.Triangle:
+                finaltasktracker.Candles1to3 = true;
                 if (numberOfActiveCandles == 4) targetCandleIndexes.AddRange(new int[] { 0, 1 });
                 else if (numberOfActiveCandles == 5) targetCandleIndexes.AddRange(new int[] { 0, 2 });
                 else targetCandleIndexes.AddRange(new int[] { 0, 3 });
@@ -261,6 +264,7 @@ public class CandleRitual : MonoBehaviour
             {
                 ritualCompleted = true;
                 Debug.Log("Candle Ritual Complete");
+                finaltasktracker.Correct1 = true;
 
                 if (ritualCompleteSound != null)
                     ritualCompleteSound.Play();

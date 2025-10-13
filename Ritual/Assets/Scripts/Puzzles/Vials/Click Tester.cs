@@ -10,6 +10,7 @@ public class ClickTester : MonoBehaviour
     [SerializeField] private PlayerMovement playerMovement;
     public GameObject TrackBars;
     public LiquidMixer LiquidMix;
+    public BoxCollider[] BoxColliders;
 
     [Header("Transition Settings")]
     [SerializeField] private float moveSpeed = 2f;
@@ -35,6 +36,14 @@ public class ClickTester : MonoBehaviour
             mainCamera = Camera.main;
 
         myCollider = GetComponent<Collider>();
+    }
+
+    private void Start()
+    {
+        foreach (BoxCollider box in BoxColliders)
+        {
+            box.enabled = false;
+        }
     }
 
     private void OnEnable()
@@ -136,6 +145,11 @@ public class ClickTester : MonoBehaviour
             Debug.Log("Typewriter Enter");
         }
 
+        foreach (BoxCollider box in BoxColliders)
+        {
+            box.enabled = true;
+        }
+
     }
 
     private void ExitFocusMode()
@@ -165,6 +179,11 @@ public class ClickTester : MonoBehaviour
             LiquidMix.ClearAllFills();
 
         Debug.Log("Returning from focus mode");
+
+        foreach (BoxCollider box in BoxColliders)
+        {
+            box.enabled = false;
+        }
     }
 
 }

@@ -9,6 +9,7 @@ public class RingWinManager : MonoBehaviour
     public Transform innerRing;
     public RingRitual ringRitual;
     public AudioSource ritualCompleteSound;
+    public FinalTaskTracker finalTaskTracker;
 
     [Header("Hourglass Light")]
     public GameObject hourglassLight4; // Drag the GameObject here in the Inspector
@@ -69,6 +70,7 @@ public class RingWinManager : MonoBehaviour
     {
         ritualComplete = true;
         Debug.Log("Ring Ritual Complete");
+        finalTaskTracker.Correct4 = true;
 
         // Play ritual complete sound
         if (ritualCompleteSound != null)

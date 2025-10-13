@@ -11,7 +11,7 @@ public class RingWinManager : MonoBehaviour
     public AudioSource ritualCompleteSound;
 
     [Header("Hourglass Light")]
-    public GameObject hourglassLight4; 
+    public GameObject hourglassLight4; // Drag the GameObject here in the Inspector
 
     private bool ritualComplete = false;
 
@@ -70,9 +70,9 @@ public class RingWinManager : MonoBehaviour
         ritualComplete = true;
         Debug.Log("Ring Ritual Complete");
 
-        // Play ritua
+        // Play ritual complete sound
         if (ritualCompleteSound != null)
-            ritualCompleteSound.Pl complete soundlay();
+            ritualCompleteSound.Play();
 
         // Activate Hourglass Light 4
         if (hourglassLight4 != null)

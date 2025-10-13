@@ -129,14 +129,12 @@ public class VialsFocus : MonoBehaviour
         {
             liquidMixer.ClearAllFills();
 
-            if (liquidMixer.HourglassLight != null)
-                liquidMixer.HourglassLight.SetActive(false);
-
             if (liquidMixer.SuccessAudio != null)
                 liquidMixer.SuccessAudio.Stop();
 
             Debug.Log($"Fills after reset: R:{liquidMixer.redFill}, G:{liquidMixer.greenFill}, Y:{liquidMixer.yellowFill}, B:{liquidMixer.blueFill}");
         }
+
         else
         {
             Debug.LogWarning("LiquidMixer reference not set in VialsFocus!");

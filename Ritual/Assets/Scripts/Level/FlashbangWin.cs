@@ -5,9 +5,11 @@ using System.Collections;
 public class FlashbangWin : MonoBehaviour
 {
     [Header("Flashbang Settings")]
-    public Image flashImage;          
-    public AudioClip flashSound;      
-    public float fadeDuration = 5f;   
+    public Image flashImage;
+    public AudioClip preFlashSound;
+    public AudioClip flashSound;
+    public AudioClip finalSound;
+    public float fadeDuration = 5f;
 
     private AudioSource audioSource;
 
@@ -32,10 +34,42 @@ public class FlashbangWin : MonoBehaviour
             return;
         }
 
-        if (flashSound != null)
-            audioSource.PlayOneShot(flashSound);
+        StartCoroutine(PlayFlashSequence());
+    }
 
-        StartCoroutine(FadeInImage());
+    private IEnumerator PlayFlashSequence()
+    {
+        
+        if (preFlashSound != null)
+        {
+            audioSource.clip = preFlashSound;
+            audioSource.Play();
+            yield return new WaitForSeconds(preFlashSound.length);
+        }
+
+        
+        if (flashSound != null)
+        {
+            audioSource.PlayOneShot(flashSound);
+        }
+
+        
+        yield return StartCoroutine(FadeInImage());
+
+        
+        if (flashSound != null)
+        {
+            yield return new WaitForSeconds(flashSound.length);
+        }
+
+        
+        yield return StartCoroutine(FadeToBlack());
+
+        
+        if (finalSound != null)
+        {
+            audioSource.PlayOneShot(finalSound);
+        }
     }
 
     private IEnumerator FadeInImage()
@@ -53,7 +87,25 @@ public class FlashbangWin : MonoBehaviour
             flashImage.color = c;
             yield return null;
         }
-        c.a = 1f;
+
+        c.a = endAlpha;
         flashImage.color = c;
+    }
+
+    private IEnumerator FadeToBlack()
+    {
+        float elapsed = 0f;
+        Color startColor = flashImage.color;
+        Color endColor = Color.black;
+
+        while (elapsed < fadeDuration)
+        {
+            elapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsed / fadeDuration);
+            flashImage.color = Color.Lerp(startColor, endColor, t);
+            yield return null;
+        }
+
+        flashImage.color = endColor;
     }
 }

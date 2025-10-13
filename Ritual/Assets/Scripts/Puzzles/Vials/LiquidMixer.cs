@@ -25,6 +25,10 @@ public class LiquidMixer : MonoBehaviour
     public AudioSource Pour;
     public FinalTaskTracker finalTaskTracker;
 
+    [Header("Success Objects")]
+    public GameObject HourglassLight;
+    public AudioSource SuccessAudio;
+
     private void Awake()
     {
         if (mainCamera == null)
@@ -47,22 +51,22 @@ public class LiquidMixer : MonoBehaviour
         {
             if (hit.collider.gameObject == gameObject)
             {
-                // for reset 
-                bool shiftHeld =
-                    Keyboard.current.leftShiftKey.isPressed ||
-                    Keyboard.current.rightShiftKey.isPressed;
+                bool wasWASDPressed =
+                    Keyboard.current.wKey.isPressed ||
+                    Keyboard.current.aKey.isPressed ||
+                    Keyboard.current.sKey.isPressed ||
+                    Keyboard.current.dKey.isPressed;
 
                 if (currentSelection != LiquidType.Mix)
                 {
-                    // Selecting a color
                     SetActiveColor(currentSelection);
                 }
                 else
                 {
-                    if (shiftHeld)
+                    if (wasWASDPressed)
                     {
                         ClearAllFills();
-                        Debug.Log("All fills cleared!");
+                        Debug.Log("All fills cleared via WASD!");
                     }
                     else
                     {
@@ -76,7 +80,6 @@ public class LiquidMixer : MonoBehaviour
 
     private void SetActiveColor(LiquidType type)
     {
-        // keep track of the selection too
         currentSelection = type;
 
         liquidHolder.redActive = (type == LiquidType.Red);
@@ -156,25 +159,24 @@ public class LiquidMixer : MonoBehaviour
 
         if (success)
         {
-            Debug.Log("YAY!!!! PotioTime");
+            Debug.Log("YAY!!!! Potion Success!");
             if (PotionBroth != null)
-            {
                 PotionBroth.SetActive(true);
-            }
 
-            if (redFill != 0)
-            {
-                if (finalTaskTracker.Candles1to3 == false)
-                {
-                    finalTaskTracker.RedVial = true;
-                }
-                
-            }
+            if (HourglassLight != null)
+                HourglassLight.SetActive(true);
+
+            if (SuccessAudio != null)
+                SuccessAudio.Play();
+
+            if (redFill != 0 && !finalTaskTracker.Candles1to3)
+                finalTaskTracker.RedVial = true;
 
             finalTaskTracker.Correct2 = true;
-            
         }
         else
+        {
             Debug.Log("Keep mixing!");
+        }
     }
 }

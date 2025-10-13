@@ -9,11 +9,14 @@ EditorBuildSettings:
     path: Assets/Scenes/SampleScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
   - enabled: 1
-    path: Assets/Scenes/Playtest Scenes/StartScreen.unity
+    path: Assets/Scenes/Scenes for Build/StartScreen.unity
     guid: 3acc56585bdace34684f1efddd5213ea
   - enabled: 1
-    path: Assets/Scenes/Test Scenes/Riona's Testing Grounds (backup again).unity
+    path: Assets/Scenes/Scenes for Build/The Game happens here.unity
     guid: bb13643aea46b8c42b3acf9c107e9109
+  - enabled: 1
+    path: Assets/Scenes/Scenes for Build/Jumpscare.unity
+    guid: 977be4d548ee90e4dbb2983dcc29ab43
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

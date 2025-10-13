@@ -1,32 +1,45 @@
 using UnityEngine;
 
-[ExecuteAlways] //Praying this doesnt fuck up might need to del ltr
+[ExecuteAlways]
 [RequireComponent(typeof(SphereCollider))]
 public class SaltCircleScript : MonoBehaviour
 {
+    [Header("References")]
     public Transform player;
-    public float pushForce = 10f;
+    public PlayerMovement playerMovement;
+
+    [Header("Settings")]
     [Range(1f, 25f)]
-    public float circleScale = 5f;
+    public float circleScale = 4f;
 
     private SphereCollider circleCollider;
     private float radius;
 
     void Start()
     {
-        //the goal is here is 2 things
-        //1. Define a circle area the player cant leave
-        //2. Scale my img renderer and the collider via script for easy testing later
         circleCollider = GetComponent<SphereCollider>();
-        circleCollider.isTrigger = true; 
+        circleCollider.isTrigger = true;
+        UpdateRadius();
+    }
+
+    void Update()
+    {
+        transform.localScale = new Vector3(circleScale, circleScale, circleScale);
+        UpdateRadius();
+
+        if (player == null || playerMovement == null)
+            return;
+
+        KeepPlayerInside();
+    }
+
+    private void UpdateRadius()
+    {
         radius = circleCollider.radius * transform.localScale.x;
     }
 
-    void FixedUpdate()
+    private void KeepPlayerInside()
     {
-        transform.localScale = new Vector3(circleScale, circleScale, 1f);
-        if (player == null) return;
-
         Vector3 center = transform.position;
         Vector3 playerPos = player.position;
 
@@ -35,24 +48,28 @@ public class SaltCircleScript : MonoBehaviour
 
         if (distance > radius)
         {
-            // Push the player back inside the circle ***
-            // *** This valeu HAS to match the force of the players forward movemnt!!!
-            Vector3 pushDir = toPlayer.normalized;
-            Rigidbody rb = player.GetComponent<Rigidbody>();
-            if (rb != null)
+            Vector3 clampedPos = center + toPlayer.normalized * radius;
+
+            CharacterController controller = player.GetComponent<CharacterController>();
+            if (controller != null)
             {
-                rb.AddForce(-pushDir * pushForce, ForceMode.VelocityChange);
+                Vector3 correction = (clampedPos - playerPos) * Time.deltaTime * 15f;
+                controller.Move(correction);
+
+            }
+            else
+            {
+                player.position = clampedPos;
             }
         }
     }
 
-    // How big is the circle ??
-    #if UNITY_EDITOR
+#if UNITY_EDITOR
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, GetComponent<SphereCollider>()?.radius * transform.localScale.x ?? 1f);
+        float gizmoRadius = GetComponent<SphereCollider>()?.radius * transform.localScale.x ?? 1f;
+        Gizmos.DrawWireSphere(transform.position, gizmoRadius);
     }
-    #endif
+#endif
 }
-

@@ -30,6 +30,7 @@ public class ClickTester : MonoBehaviour
 
     private Collider myCollider;
 
+    //Just in case you dont assign stuff
     private void Awake()
     {
         if (mainCamera == null)
@@ -38,6 +39,7 @@ public class ClickTester : MonoBehaviour
         myCollider = GetComponent<Collider>();
     }
 
+    //Make sure player cant interact with certain collider earlier than they are supposed to!
     private void Start()
     {
         foreach (BoxCollider box in BoxColliders)
@@ -46,6 +48,7 @@ public class ClickTester : MonoBehaviour
         }
     }
 
+    //Check for player mvmnt
     private void OnEnable()
     {
         if (playerMovement != null)

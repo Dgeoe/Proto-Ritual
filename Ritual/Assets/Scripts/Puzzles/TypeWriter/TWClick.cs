@@ -132,13 +132,13 @@ public class TWClick : MonoBehaviour
         }
         else if (monsterTypeChooser.Burnt)
         {
-            correctButtons = new HashSet<int> { 2, 8, 7, 5 };
-            correctButtonsDisplay = "2, 8, 7, 5";
+            correctButtons = new HashSet<int> { 4, 2, 5, 6 };
+            correctButtonsDisplay = "4, 2, 5, 6";
         }
         else if (monsterTypeChooser.Blood)
         {
-            correctButtons = new HashSet<int> { 4, 2, 5, 6 };
-            correctButtonsDisplay = "4, 2, 5, 6";
+            correctButtons = new HashSet<int> { 2, 8, 3, 5 };
+            correctButtonsDisplay = "2, 8, 3, 5";
         }
         else
         {

@@ -2,8 +2,9 @@ using UnityEngine;
 
 public class MonsterTypeChooser : MonoBehaviour
 {
-    public Texture[] MonsterTypes; // Expecting 4 textures (Monster, Backstabbed, Burnt, Blood)
+    public Texture[] MonsterTypes; //4 textures (Monster, Backstabbed, Burnt, Blood)
     public GameObject[] Monsters;
+    public Mesh BurntModel; //named MonsterVarientBurnt and then its mesh is Cube Remesh
 
     public bool Monster;
     public bool Backstabbed;
@@ -43,6 +44,21 @@ public class MonsterTypeChooser : MonoBehaviour
             {
                 Debug.LogWarning($"{monster.name} has no Renderer component!");
             }
+
+            if (chosenIndex == 2) //If burnt is true
+            {
+                SkinnedMeshRenderer skinnedRenderer = monster.GetComponent<SkinnedMeshRenderer>();
+
+                if (skinnedRenderer != null && BurntModel != null)
+                {
+                    skinnedRenderer.sharedMesh = BurntModel;
+                    Debug.Log("Burnt Model Set");
+                }
+                else
+                {
+                    Debug.LogWarning("MeshFilters not assigned");
+                }
+            }
         }
     }
 
@@ -69,7 +85,7 @@ public class MonsterTypeChooser : MonoBehaviour
                 }
                 break;
             default:
-                Debug.LogWarning("Unexpected texture index; no state set.");
+                Debug.LogWarning("Unexpected texture index");
                 break;
         }
     }

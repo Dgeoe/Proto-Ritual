@@ -1,6 +1,5 @@
 using UnityEngine;
 
-[RequireComponent(typeof(SymbolManager))]
 public class LiquidHolder : MonoBehaviour
 {
     [Header("Color Ratio Targets")]
@@ -8,12 +7,13 @@ public class LiquidHolder : MonoBehaviour
     public float greenTarget;
     public float yellowTarget;
     public float blueTarget;
-    public SymbolManager.SymbolType activeSymbol;
+    private SymbolManager.SymbolType activeSymbol;
     public bool redActive;
     public bool greenActive;
     public bool yellowActive;
     public bool blueActive;
     public SymbolManager symbolManager;
+    
     private void Start()
     {
         SetValuesBasedOnSymbol();

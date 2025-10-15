@@ -14894,6 +14894,7 @@ MonoBehaviour:
   - {fileID: 1425537164}
   - {fileID: 164471412}
   - {fileID: 535537997}
+  BurntModel: {fileID: 380987027968148612, guid: eaaa9a799bf06df43af71c7684572eba, type: 3}
   Monster: 0
   Backstabbed: 0
   Burnt: 0
@@ -21764,7 +21765,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 417598096}
-  - component: {fileID: 417598095}
   - component: {fileID: 417598094}
   m_Layer: 0
   m_Name: LiquidHolder
@@ -21789,30 +21789,11 @@ MonoBehaviour:
   greenTarget: 0
   yellowTarget: 0
   blueTarget: 0
-  activeSymbol: 0
   redActive: 0
   greenActive: 0
   yellowActive: 0
   blueActive: 0
   symbolManager: {fileID: 672899234}
---- !u!114 &417598095
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 417598093}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87a94158e46b8054ba58e1d98c7e71eb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SymbolManager
-  triangleSymbol: {fileID: 0}
-  starSymbol: {fileID: 0}
-  squareSymbol: {fileID: 0}
-  eyeballSymbol: {fileID: 0}
-  doubleEyeballSymbol: {fileID: 0}
-  activeSymbolType: 0
 --- !u!4 &417598096
 Transform:
   m_ObjectHideFlags: 0

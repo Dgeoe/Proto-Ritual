@@ -53,9 +53,9 @@ public class LiquidHolder : MonoBehaviour
                 break;
 
             case SymbolManager.SymbolType.DoubleEyeball:
-                // Yellow + Blue = 75 / 25
-                yellowTarget = 75;
-                blueTarget = 25;
+                // Blue + Yellow = 75 / 25
+                yellowTarget = 25;
+                blueTarget = 75;
                 break;
         }
 

@@ -6,7 +6,6 @@ public class Note : MonoBehaviour
 
     public string ToDo;
     public string For;
-    public string ThisDoes;
 
     public enum urgency {NotVery, aLittle, aLot, URGENT};
     public urgency HowImportant;

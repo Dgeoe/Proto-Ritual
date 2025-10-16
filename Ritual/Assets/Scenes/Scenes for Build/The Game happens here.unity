@@ -25238,6 +25238,8 @@ GameObject:
   m_Component:
   - component: {fileID: 651300860}
   - component: {fileID: 651300859}
+  - component: {fileID: 651300862}
+  - component: {fileID: 651300861}
   m_Layer: 0
   m_Name: '*Drag&Drop*'
   m_TagString: Untagged
@@ -25274,6 +25276,40 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1306610379}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &651300861
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 651300858}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6919f508dea2ca94986c94b9ab5a27d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Note
+  ToDo: Animations for Vial Drag + Drop
+  For: Visual Clarity Plus
+  ThisDoes: 
+  HowImportant: 0
+  SincerlyFrom: 0
+--- !u!114 &651300862
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 651300858}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6919f508dea2ca94986c94b9ab5a27d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Note
+  ToDo: Fix Vial Drag+Drop Offset
+  For: Just Visual Clarity
+  ThisDoes: 
+  HowImportant: 0
+  SincerlyFrom: 2
 --- !u!4 &651938445 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 78eae7f2862cf1244b45ef2da6f3911d, type: 3}
